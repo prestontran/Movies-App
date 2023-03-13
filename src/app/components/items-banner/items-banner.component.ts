@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Movie } from '../../models/movies';
 
 @Component({
   selector: 'items-banner',
@@ -6,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./items-banner.component.scss']
 })
 export class ItemsBannerComponent {
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-  }
+  @Input() items: Movie[] = [];
+  @Input() title: string = '';
 }
