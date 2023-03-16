@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { Movie } from '../../models/movies';
+import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-movies',
@@ -9,20 +11,51 @@ import { Movie } from '../../models/movies';
 })
 export class MoviesComponent implements OnInit {
   movies: Movie[] = [];
+  genreId: string | null = null;
+  searchValue: string | null = null;
 
-  constructor(private moviesServices: MoviesService) {}
+  constructor(private moviesServices: MoviesService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.getPagedMovies(1);
+    this.route.params.pipe(take(1)).subscribe(({ genreId }) => {
+      if (genreId) {
+        this.genreId = genreId;
+        this.getMoviesByGenre(genreId, 1);
+      } else {
+        this.getPagedMovies(1);
+      }
+    });
   }
 
-  getPagedMovies(page: number) {
-    this.moviesServices.searchMovies(page).subscribe((movies) => {
+  getPagedMovies(page: number, searchKeyword?: string) {
+    this.moviesServices.searchMovies(page, searchKeyword).subscribe((movies) => {
+      this.movies = movies;
+    });
+  }
+
+  getMoviesByGenre(genreId: string, page: number) {
+    this.moviesServices.getMoviesByGenre(genreId, page).subscribe((movies) => {
       this.movies = movies;
     });
   }
 
   paginate(event: any) {
-    this.getPagedMovies(event.page + 1);
+    const pageNumber: number = event.page + 1;
+
+    if (this.genreId) {
+      this.getMoviesByGenre(this.genreId, pageNumber);
+    } else {
+      if (this.searchValue) {
+        this.getPagedMovies(pageNumber, this.searchValue);
+      } else {
+        this.getPagedMovies(pageNumber);
+      }
+    }
+  }
+
+  searchChanged() {
+    if (this.searchValue) {
+      this.getPagedMovies(1, this.searchValue);
+    }
   }
 }

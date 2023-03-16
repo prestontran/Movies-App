@@ -73,19 +73,10 @@
     </ng-template>
   </p-carousel>
   <items-banner title="Related Movies"></items-banner>
-
-  <!-- <p-carousel [numVisible]="5" *ngIf="relatedMovies">
-    <ng-template let-relatedMovies pTemplate="item">
-      <div class="related">
-        <img [src]="imagesSizes.medium + relatedMovies.file_path" alt="" />
-      </div>
-    </ng-template>
-  </p-carousel> -->
-
   <div class="container">
     <div class="grid">
-      <div class="col-6 md:col-3 lg:col-3" *ngFor="let movie of relatedMovies">
-        <item [itemData]="movie"></item>
+      <div class="col-6 md:col-3 lg:col-3" *ngFor="let rmovie of relatedMovies">
+        <item [itemData]="rmovie"></item>
       </div>
     </div>
   </div>

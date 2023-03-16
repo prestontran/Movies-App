@@ -21,7 +21,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(first()).subscribe(({ id }) => {
+    this.route.params.pipe().subscribe(({ id }) => {
       this.getMovie(id);
       this.getMovieVideos(id);
       this.getMovieImages(id);
