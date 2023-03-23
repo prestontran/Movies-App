@@ -88,12 +88,4 @@ export class MoviesService {
         })
       );
   }
-
-  // getTVs(type: string = 'upcoming', count: number = 12) {
-  //   return this.http.get<TVDto>(`${this.baseUrl}/movie/${type}?api_key=${this.apiKey}`).pipe(
-  //     switchMap((res) => {
-  //       return of(res.results.slice(0, count));
-  //     })
-  //   );
-  // }
 }
