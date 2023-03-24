@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Item } from '../../components/item/item';
-import { TvShow, TvShowCredits, TvShowImages, TvShowVideo } from '../../models/tvshows';
+import {
+  mapTvShowToItem,
+  TvShow,
+  TvShowCredits,
+  TvShowImages,
+  TvShowVideo
+} from '../../models/tvshows';
 import { TvshowsService } from 'src/app/services/tvshows.service';
 import { IMAGES_SIZES } from '../../constants/images-sizes';
 
@@ -16,6 +22,7 @@ export class TvshowComponent {
   tvShowVideos: TvShowVideo[] = [];
   tvShowImages: TvShowImages | null = null;
   tvShowCredits: TvShowCredits | null = null;
+  tvShowsRelated: Item[] = [];
   imagesSizes = IMAGES_SIZES;
 
   constructor(private route: ActivatedRoute, private tvShowsService: TvshowsService) {}
@@ -26,6 +33,7 @@ export class TvshowComponent {
       this.getTvShowVideos(id);
       this.getTvShowImages(id);
       this.getTvShowCredits(id);
+      this.getTvShowsRelated(id);
     });
   }
 
@@ -58,9 +66,11 @@ export class TvshowComponent {
     });
   }
 
-  getRelatedMovies(id: string) {
-    this.tvShowsService.getRelatedMovies(id).subscribe((relatedMoviesData) => {
-      this.relatedMovies = relatedMoviesData;
+  getTvShowsRelated(id: string) {
+    this.tvShowsService.getTvShowsRelated(id).subscribe((tvShowsRelatedData) => {
+      this.tvShowsRelated = tvShowsRelatedData.map((TvShowsRelated) =>
+        mapTvShowToItem(TvShowsRelated)
+      );
     });
   }
 }

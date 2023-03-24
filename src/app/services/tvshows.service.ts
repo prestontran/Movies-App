@@ -64,7 +64,7 @@ export class TvshowsService {
     return this.http.get<TvShowCredits>(`${this.baseUrl}/tv/${id}/credits?api_key=${this.apiKey}`);
   }
 
-  getRelatedTvShows(id: string) {
+  getTvShowsRelated(id: string) {
     return this.http.get<TvShowDto>(`${this.baseUrl}/tv/${id}/similar?api_key=${this.apiKey}`).pipe(
       switchMap((res) => {
         return of(res.results);

@@ -66,7 +66,7 @@ export class MoviesService {
     );
   }
 
-  getRelatedMovies(id: string) {
+  getMoviesRelated(id: string) {
     return this.http
       .get<MovieDto>(`${this.baseUrl}/movie/${id}/similar?api_key=${this.apiKey}`)
       .pipe(

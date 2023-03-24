@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { TvshowsService } from '../../services/tvshows.service';
-import { TvShow } from '../../models/tvshows';
+//import { TvShow } from '../../models/tvshows';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
+import { Item } from '../../components/item/item';
+import { mapTvShowToItem } from 'src/app/models/tvshows';
 
 @Component({
   selector: 'app-tvshows',
@@ -10,7 +12,7 @@ import { take } from 'rxjs';
   styleUrls: ['./tvshows.component.scss']
 })
 export class TvshowsComponent {
-  tvshows: TvShow[] = [];
+  tvshows: Item[] = [];
   genreId: string | null = null;
   searchValue: string | null = null;
 
@@ -29,13 +31,13 @@ export class TvshowsComponent {
 
   getPagedTvShows(page: number, searchKeyword?: string) {
     this.TvshowsServices.searchTvShows(page, searchKeyword).subscribe((tvshows) => {
-      this.tvshows = tvshows;
+      this.tvshows = tvshows.map((TvShows) => mapTvShowToItem(TvShows));
     });
   }
 
   getTvShowsByGenre(genreId: string, page: number) {
     this.TvshowsServices.getTvShowsByGenre(genreId, page).subscribe((tvshows) => {
-      this.tvshows = tvshows;
+      this.tvshows = tvshows.map((TvShows) => mapTvShowToItem(TvShows));
     });
   }
 
